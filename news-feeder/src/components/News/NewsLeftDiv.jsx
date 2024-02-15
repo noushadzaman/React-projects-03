@@ -6,11 +6,11 @@ const NewsLeftDiv = ({ news }) => {
 
     useEffect(() => {
         let completeNews = news?.find(singleNews => singleNews.description !== null && singleNews.urlToImage !== null);
-        const firstNewsTitle = completeNews?.title;
-        console.log(firstNewsTitle)
-        let rest = news?.filter(singleNews => singleNews.title !== firstNewsTitle);
-        setRestNews(rest);
         setFirstNews(completeNews);
+        const firstNewsTitle = completeNews?.title;
+        let rest = news?.filter(singleNews => singleNews.title !== firstNewsTitle);
+        console.log(rest)
+        setRestNews([...rest]);
     }, [news]);
 
     console.log(news);
@@ -46,9 +46,6 @@ const NewsLeftDiv = ({ news }) => {
                             src={firstNews?.urlToImage}
                             alt="thumb"
                         />
-                        <p className="mt-5 text-base text-[#5C5955]">
-                            Illustration: Karolis Strautniekas
-                        </p>
                     </div>
                 </div>
             }
@@ -63,13 +60,13 @@ const NewsLeftDiv = ({ news }) => {
                                 ><h3
                                     className="mb-2.5 text-xl font-bold lg:text-2xl"
                                 >
-                                        {firstNews?.title}
+                                        {singleNews?.title}
                                     </h3></a>
                                 <p className="text-base text-[#292219]">
-                                    {firstNews?.description}
+                                    {singleNews?.description}
                                 </p>
                                 <p className="mt-5 text-base text-[#94908C]">
-                                    {new Date(firstNews?.publishedAt).toLocaleDateString('en-US', {
+                                    {new Date(singleNews?.publishedAt).toLocaleDateString('en-US', {
                                         day: 'numeric',
                                         month: 'short',
                                         year: 'numeric'
@@ -112,15 +109,11 @@ const NewsLeftDiv = ({ news }) => {
                                     </p>
                                 </div>
                                 <div className="col-span-12 md:col-span-6">
-                                    {
-                                        singleNews?.urlToImage === null ?
-                                            null :
-                                            <img
-                                                className="w-full"
-                                                src={singleNews?.urlToImage}
-                                                alt="thumb"
-                                            />
-                                    }
+                                    <img
+                                        className="w-full"
+                                        src={singleNews?.urlToImage}
+                                        alt="thumb"
+                                    />
                                 </div>
                             </div>
                     }

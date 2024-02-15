@@ -2,11 +2,21 @@ import { useContext, useState } from "react";
 import SearchIcon from "../../assets/icons/search.svg";
 import LWS from "../../assets/logo.png";
 import { CategoryContext, SearchContext } from "../../context/Context";
+import useDebounce from "../../hooks/useDebounce";
 
 const Header = () => {
     const [search, toggleSearch] = useState(false)
     const { setCategory } = useContext(CategoryContext);
-    const { searchInput, setSearchInput } = useContext(SearchContext);
+    const { setSearchInput } = useContext(SearchContext);
+
+    const doSearch = useDebounce((term) => {
+        setSearchInput(term);
+    }, 500)
+
+    const handleChange = (e) => {
+        const value = (e.target.value);
+        doSearch(value)
+    }
 
     return (
         <nav className="border-b border-black py-6 md:py-8">
@@ -83,15 +93,15 @@ const Header = () => {
                     {
                         search &&
                         <input
-                            onChange={(e) => setSearchInput(e.target.value)}
+                            onChange={handleChange}
                             type="text"
                             className="border-2 border-sky-500"
                         />
                     }
                     <img
                         onClick={() => toggleSearch(!search)}
-                        src={SearchIcon} 
-                        className="cursor-pointer"/>
+                        src={SearchIcon}
+                        className="cursor-pointer" />
                 </div>
             </div>
             <div className="container mx-auto mt-6">
